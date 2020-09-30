@@ -13,6 +13,7 @@ import 'package:shop_app/provider/cartProvider.dart';
 import 'package:shop_app/provider/categories.dart';
 import 'package:shop_app/provider/order_provider.dart';
 import 'package:shop_app/provider/products.dart';
+import 'package:shop_app/provider/user_provider.dart';
 
 var keepLoggedIn;
 Future<void> main() async {
@@ -46,6 +47,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => OrderProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(),
         ),
       ],
       child: MaterialApp(
