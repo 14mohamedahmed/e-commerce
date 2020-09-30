@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/UI/auth/component/error_dialog.dart';
@@ -315,8 +316,11 @@ class _AuthenticationState extends State<Authentication> {
                                   },
                                   child: Container(
                                     child: Text(isSignUp ? 'Login' : 'Signup',
-                                        style:
-                                            TextStyle(color: Colors.blue[600])),
+                                        style: TextStyle(
+                                            color: Colors.blue[600],
+                                            fontSize:
+                                                AppConfig.blockSizeVertical *
+                                                    2.5)),
                                   ),
                                 ),
                               ],
@@ -335,13 +339,17 @@ class _AuthenticationState extends State<Authentication> {
                                         setState(() {
                                           showingSpinner = true;
                                         });
-                                        Navigator.of(context)
-                                            .pushReplacementNamed(
-                                          BuildBottomNavyBar.routeName,
-                                        );
-                                      });
-                                      setState(() {
-                                        showingSpinner = false;
+                                        if (provider.fbResult ==
+                                            FacebookLoginStatus.loggedIn) {
+                                          Navigator.of(context)
+                                              .pushReplacementNamed(
+                                            BuildBottomNavyBar.routeName,
+                                          );
+                                        }
+                                      }).whenComplete(() {
+                                        setState(() {
+                                          showingSpinner = false;
+                                        });
                                       });
                                     },
                                     child: Image.asset('assets/facebook.png',

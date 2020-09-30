@@ -15,6 +15,7 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
+  var userprofile;
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AuthProvider>(context, listen: false);
@@ -42,7 +43,9 @@ class _UserScreenState extends State<UserScreen> {
   Widget buildBody(AuthProvider provider, UserProvider userProvider) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final userprofile = userProvider.userImage[0].photoUrl;
+    userProvider.userImage.map((e) {
+      userprofile = e.photoUrl;
+    }).toList();
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -72,7 +75,9 @@ class _UserScreenState extends State<UserScreen> {
                 left: width / 2 + width * 0.05,
                 child: GestureDetector(
                   onTap: () {
-                    userProvider.selectImage();
+                    userProvider.selectImage().then((value) {
+                      setState(() {});
+                    });
                   },
                   child: Container(
                     decoration: BoxDecoration(

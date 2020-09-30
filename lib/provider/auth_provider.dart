@@ -11,6 +11,7 @@ class AuthProvider extends ChangeNotifier {
   String _userEmail;
   FirebaseAuth _auth = FirebaseAuth.instance;
   GoogleSignIn _googleSignIn = GoogleSignIn();
+  FacebookLoginStatus fbResult;
   static final FacebookLogin _fblogin = FacebookLogin();
   Future<dynamic> signUPWithEmailAndPassword(
       String name, String email, String password) async {
@@ -36,6 +37,7 @@ class AuthProvider extends ChangeNotifier {
     SharedPreferences userInfo = await SharedPreferences.getInstance();
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
+        fbResult = result.status;
         final FacebookAccessToken accessToken = result.accessToken;
         AuthCredential fbCredential =
             FacebookAuthProvider.getCredential(accessToken.token);
@@ -49,9 +51,11 @@ class AuthProvider extends ChangeNotifier {
         });
         break;
       case FacebookLoginStatus.cancelledByUser:
+        fbResult = result.status;
         print('Login cancelled by the user.');
         break;
       case FacebookLoginStatus.error:
+        fbResult = result.status;
         print('Something went wrong with the login process.\n'
             'Here\'s the error Facebook gave us: ${result.errorMessage}');
         break;
